@@ -1,0 +1,67 @@
+:root {
+  --color-primary: #070513;
+  --color-secondary: #3f3983;
+  --text-color: white;
+}
+
+.content {
+  background: var(--color-primary);
+  color: var(--text-color);
+}
+
+header {
+  background: var(--color-secondary);
+}
+
+.menu-lateral {
+  background: linear-gradient(
+    to top,
+    var(--color-primary),
+    var(--color-secondary)
+  );
+  color: white !important;
+}
+
+.menu-lateral button {
+  border: none;
+  background: none;
+  color: white !important;
+}
+
+.button-active {
+  background: linear-gradient(
+    to right,
+    var(--color-secondary),
+    var(--color-primary)
+  ) !important;
+  color: var(--text-color);
+}
+
+.input-type {
+  background: none !important;
+  outline-style: none !important;
+  border: none !important;
+  border-bottom: 1px solid white !important;
+  color: white !important;
+  width: 100%;
+}
+.input-type::placeholder {
+  color: white !important;
+}
+
+.btn {
+  background: #3f3983 !important;
+  border: none;
+  color: var(--text-color) !important;
+}
+
+.btn:hover {
+  filter: saturate(2);
+}
+
+.form-select {
+  background: none !important;
+  color: white !important;
+  border: none !important;
+  outline-style: none !important;
+}

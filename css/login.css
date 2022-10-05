@@ -1,0 +1,45 @@
+body {
+    background: linear-gradient(to top, #070513, #3f3983)!important;
+    height: 100vh;
+}
+
+.box-left, .box-right {
+    width: 50vw;
+    height: 100vh;
+    color: white;
+}
+
+.button-login {
+    background: none;
+    outline-style: none;
+    border: none;
+    border-bottom: 1px solid white;
+    color: white;
+    width: 100%;
+}
+
+.area-input {
+    width: 100%;
+    
+}
+
+.button-login::placeholder {
+    color: white;
+    font-size: 1.2rem;
+}
+
+button {
+    background: #0f0c29;
+    border: none;
+    border-radius: 10px!important;
+    padding: 10px;
+    color: white;
+    font-size: 1.2em!important;
+    transition: 0.3s;
+}
+
+button:hover {
+    filter: saturate(3);
+
+}
+
