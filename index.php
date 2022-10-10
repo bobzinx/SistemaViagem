@@ -34,7 +34,7 @@
         </div>
       </div>
       <div class="box-right d-flex justify-content-center align-items-center">
-        <form action="" class="w-50 gap-4 d-flex flex-column" autocomplete="off">
+        <form action="auth/auth.php" method= "POST" class="w-50 gap-4 d-flex flex-column" autocomplete="off">
           <h2>Faça Login</h2>
           <div class="d-flex flex-column gap-3">
             <div class="area-input d-flex gap-3">

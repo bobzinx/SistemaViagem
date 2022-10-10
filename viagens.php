@@ -1,3 +1,56 @@
+<?php
+session_start();
+if (!isset($_SESSION['conectado'])) {
+    header('Location: index.php');
+    die();
+}
+
+include 'db/db.php';
+
+$stmt = $cc->query("SELECT * FROM rotas");
+$rotas = [];
+
+if ($stmt->num_rows > 0) {
+
+    while ($data = $stmt->fetch_assoc()) {
+        $rotas[] = $data;
+    }
+}
+
+$stmt = $cc->query("SELECT * FROM carros");
+$carros = [];
+
+if ($stmt->num_rows > 0) {
+
+    while ($data = $stmt->fetch_assoc()) {
+        $carros[] = $data;
+    }
+}
+
+$stmt = $cc->query("SELECT * FROM rotas");
+$rotas = [];
+
+if ($stmt->num_rows > 0) {
+
+    while ($data = $stmt->fetch_assoc()) {
+        $rotas[] = $data;
+    }
+}
+
+$stmt = $cc->query("SELECT * FROM viagens");
+$viagens = [];
+
+if ($stmt->num_rows > 0) {
+
+    while ($data = $stmt->fetch_assoc()) {
+        $viagens[] = $data;
+    }
+}
+
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
@@ -32,13 +85,13 @@
     </header>
       <div class="d-flex " style="height: 100vh;">
         <div class="col-2 menu-lateral d-flex flex-column">
-          <a href="./carro.html" class=" text-center">
+          <a href="./carro.php" class=" text-center">
             <button class="p-2">
                 Carros
             </button>
           </a>
                
-          <a href="./rota.html" class=" text-center">
+          <a href="./rota.php" class=" text-center">
             <button class="p-2 ">
                     Rotas
                 </button>
@@ -52,12 +105,15 @@
             <div class="container mt-5">
                 <fieldset>
                     <legend><strong> Calcular Viagens </strong></legend>
-              <form class="row g-3" action="actions/carro_action.php"  method="POST">
+              <form class="row g-3" action="Models/Viagens.php"  method="POST">
                     <div class="col-md-6">
                         <label for="viagem" class="form-label">Rota</label>
                         <div class="form-floating">
                           <select class="form-select" id="viagem" name="viagem" required>
                           <option value="0" selected>Escolha uma rota aqui...</option>
+                          <?php foreach ($rotas as $rota) : ?>
+                                <option style="color:black" value="<?= $rota['id'] ?>"><?= $rota['cidade_inicio'] . "- " . $rota['cidade_destino'] ?></option>
+                            <?php endforeach ?>
                           </select>
                         </div>
                     </div>
@@ -65,7 +121,11 @@
                         <label for="carro" class="form-label">Carro</label>
                         <div class="form-floating">
                           <select class="form-select" id="carro" name="carro" required>
-                          <option value="0" selected>Escolha o carro...</option>
+                          <option value="0"  selected>Escolha o carro...</option>
+                          <?php foreach ($carros as $carro) : ?>
+                                <option style="color: black" value="<?= $carro['id'] ?>"><?= $carro['modelo'] ?></option>
+                            <?php endforeach ?>
+                 
                           </select>
                         </div>
                     </div>
@@ -75,7 +135,7 @@
                         type="number"
                         class="form-control input-type"
                         id="price"
-                        name="price"
+                        name="consumo"
                         placeholder="5.20"
                         required
                         />
@@ -83,7 +143,8 @@
                     
                     <div class="col-12">
                         <button type="submit" class="btn">Calcular</button>
-                          <button type="reset" class="btn">Limpar</button>
+                        <button type="reset" class="btn">Limpar</button>
+                     
                     </div>
                 </form>
             </fieldset>
@@ -101,23 +162,31 @@
                   </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                    <td>1</td>
-                            <td>Teste</td>
-                            <td>5000 KM</td>
-                            <td>C4 Pallas</td>
-                            <td>R$ 5.36</td>
-                            <td> R$ 2.500</td>
-                      <td class="text-center">
-                        <button class="btn btn-sm">
-                          Excluir
-                        </button>
-                      </td>
-                    </tr>
+                  <?php foreach ($viagens as $item) : ?>
+                        <tr>
+                            <td><?= $item['id'] ?></td>
+                            <td><?= $item['rota'] ?></td>
+                            <td><?= $item['distancia'] ?> KM</td>
+                            <td><?= $item['carro'] ?> </td>
+                            <td>R$ <?= $item['preco_combustivel'] ?></td>
+                            <td> R$ <?= $item['preco_viagem'] ?></td>
+                            <td class="text-center">
+                                <button onclick="down('<?= $item['id'] ?>')" class="btn  btn-sm">
+                                    Excluir
+                                </button>
+                            </td>
+                        </tr>
+                    <?php endforeach ?>
                     </tbody>
               </table>
             </div>
         </div>
       </div>
   </body>
+  <script
+  src="https://code.jquery.com/jquery-3.6.1.min.js"
+  integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+  crossorigin="anonymous"></script>
+  <script src="js/delete_viagens.js">
+  </script>
 </html>

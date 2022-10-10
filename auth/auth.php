@@ -27,7 +27,7 @@ if (isset($_POST['email']) && isset($_POST['senha'])) {
             $_SESSION['email']  = $email;
         }
 
-        header("Location: ../menu.php");
+        header("Location: ../carro.php");
         die();
     } else {
         header("Location: ../index.php");

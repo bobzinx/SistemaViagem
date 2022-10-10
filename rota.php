@@ -1,3 +1,26 @@
+<?php
+
+session_start();
+
+if (!isset($_SESSION['conectado'])) {
+
+  header('Location: index.php');
+  die();
+}
+
+include 'db/db.php';
+
+$stmt = $cc->query("SELECT * FROM rotas");
+$rotas = [];
+
+if ($stmt->num_rows > 0) {
+
+  while ($data = $stmt->fetch_assoc()) {
+    $rotas[] = $data;
+  }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
@@ -32,7 +55,7 @@
     </header>
       <div class="d-flex " style="height: 100vh;">
         <div class="col-2 menu-lateral d-flex flex-column">
-          <a href="./carro.html" class=" text-center">
+          <a href="./carro.php" class=" text-center">
             <button class="p-2">
                 Carros
             </button>
@@ -41,7 +64,7 @@
                     Rotas
                 </button>
          
-            <a href="./calculo.html" class=" text-center">
+            <a href="./viagens.php" class=" text-center">
             <button class="p-2">
                 Cálculos
             </button>
@@ -51,14 +74,14 @@
             <div class="container mt-5">
                 <fieldset>
                     <legend><strong> Cadastro de Carros </strong></legend>
-              <form class="row g-3" action="actions/carro_action.php"  method="POST">
+              <form class="row g-3" action="Models/Rota.php"  method="POST">
                     <div class="col-md-6">
                         <label for="origem" class="form-label">Cidade de Partida</label>
-                        <input type="text" class="form-control input-type" id="origem" name="origem" placeholder="Irecê - BA" required />
+                        <input type="text" class="form-control input-type" id="origem" name="cidade_inicio" placeholder="Irecê - BA" required />
                     </div>
                     <div class="col-md-6">
                         <label for="destino" class="form-label">Cidade de Destino</label>
-                        <input type="text" class="form-control input-type" id="destino" name="destino" placeholder="Gramado - RS" required/>
+                        <input type="text" class="form-control input-type" id="destino" name="cidade_destino" placeholder="Gramado - RS" required/>
                     </div>
                     <div class="col-md-6">
                         <label for="distancia" class="form-label">Distância</label>
@@ -66,7 +89,7 @@
                         type="number"
                         class="form-control input-type"
                         id="distancia"
-                        name="distancia"
+                        name="quilometros"
                         placeholder="2560"
                         required
                         />
@@ -85,26 +108,35 @@
                     <th>Id</th>
                     <th>Cidade de Partida</th>
                     <th>Cidade de Destino</th>
-                    <th>Distânca</th>
+                    <th>Distância</th>
                     <th></th>
                   </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                    <td>1</td>
-                <td>Serafina Corrêa - RS</td>
-                <td>Ilhéus - BA</td>
-                <td>2800 KM</td>
-                      <td class="text-center">
-                        <button class="btn btn-sm">
-                          Excluir
-                        </button>
-                      </td>
-                    </tr>
+                <?php foreach ($rotas as $item) : ?>
+            <tr>
+              <td><?= $item['id'] ?></td>
+              <td><?= $item['cidade_inicio'] ?></td>
+              <td><?= $item['cidade_destino'] ?></td>
+              <td><?= $item['quilometros'] ?> KM</td>
+              <td class="text-center">
+                <button onclick="down('<?= $item['id'] ?>')" class="btn btn-sm">
+                  Excluir
+                </button>
+              </td>
+            </tr>
+          <?php endforeach ?>
                     </tbody>
               </table>
             </div>
         </div>
       </div>
   </body>
+  <script
+  src="https://code.jquery.com/jquery-3.6.1.min.js"
+  integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+  crossorigin="anonymous"></script>
+
+  <script src="js/delete_rota.js">
+  </script>
 </html>
